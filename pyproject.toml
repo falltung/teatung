@@ -3,7 +3,7 @@ name = "teatung"
 version = "0.1.0"
 description = "This a Tea project package"
 authors = ["falltung <falltung@gmail.com>"]
-license = "GPL-V3"
+license = "Apache-2.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]

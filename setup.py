@@ -1,33 +1,43 @@
-from setuptools import setup
+import io
+import importlib.util
+from pathlib import Path
+from setuptools import setup, find_packages
 
-with open("README.md", "r", encoding="utf-8") as f:
-    long_description = f.read()
+author = "falltung"
+author_email = "falltung@gmail.com"
+
+
+def get_version():
+    """Import the version module and get the project version from it."""
+    version_py = Path(__file__).parent / "tea" / "version.py"
+    spec = importlib.util.spec_from_file_location("version", version_py)
+    version = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(version)
+    return version.__version__
+
 
 setup(
-    name="falltung",
-    version="0.1.0",
-    keywords=["falltung","canopen"],
-    description="Tea is a simple and easy-to-use python package for parsing and analyzing CANopen network data.",
-    long_description=long_description,
+    name="teatung",
+    version=get_version(),
+    author=author,
+    author_email=author_email,
+    maintainer=author,
+    maintainer_email=author_email,
+    description="Set of utility python modules.",
+    long_description=io.open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    author="falltung",
-    author_email="falltung@gmail.com",
-    url="https://github.com/falltung/teatung", # github项目连接
-    license="MIT License", # 
-    packages=[],
-    install_requires=[ # 依赖包
-        "canopen",
-        "pandas", # panda包存在即可
-        "numpy >= 1.0", # numpy包要求版本 >1.0
-        "Django >= 1.11, != 1.11.1, <= 2", # 要求Django包版本在1.11至2之间，同时不等于1.11.1
-        ],
-    classifiers=[ # 其他配置项
-        "License :: OSI Approved :: MIT License",
+    url="https://github.com/falltung/teatung",
+    platforms=["Windows", "POSIX", "MacOSX"],
+    classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: OS Independent",
     ],
-    package_data={ # 配置除了python代码外的其他数据、文件，会一起打包
-        'data': ['data.csv','*.pkl'],
-    }
+    license="Apache-2.0",
+    packages=find_packages(),
+    include_package_data=True,
+    install_requires=io.open("requirements.txt").read().splitlines(),
+    scripts=[],
 )
